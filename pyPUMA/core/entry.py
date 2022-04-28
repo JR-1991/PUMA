@@ -226,9 +226,11 @@ class PUMAEntry(BaseModel):
 
             # Get preferred value if specified
             if recursion.get(attr):
+                print(attr)
                 params[attr] = cls._extract_value_by_preference(
                     key=attr, value=recursion[attr], entries=entries
                 )
+                
             else:
                 params[attr] = entries[0].__dict__[attr]
 
