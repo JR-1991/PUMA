@@ -1,3 +1,8 @@
 tag:
     controlled_vocab:
         - "[pn|PN](\d*)(_missing)?(-\w?)?"
+    options:
+        - Lower
+url:
+    -controlled_vocab:
+        - "[https|http]"
