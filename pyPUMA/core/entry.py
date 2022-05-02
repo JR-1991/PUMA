@@ -1,3 +1,4 @@
+from multiprocessing import AuthenticationError
 import re
 
 from pydantic import BaseModel, Field, validator, PrivateAttr
@@ -213,7 +214,7 @@ class PUMAEntry(BaseModel):
             if attr in ["bibtex", "_raw_data"]:
                 # Skip raw data fields
                 continue
-
+            
             # Add up list entries
             if "list" in repr(annot):
                 # Make values unique
@@ -226,11 +227,27 @@ class PUMAEntry(BaseModel):
 
             # Get preferred value if specified
             if recursion.get(attr):
-                print(attr)
+                #print(attr)
                 params[attr] = cls._extract_value_by_preference(
                     key=attr, value=recursion[attr], entries=entries
                 )
-                
+            elif attr == 'author':
+                merged = ''
+                for entry in entries:
+                    print(entry.__dict__[attr].split("and"))
+                    if((len(merged.split("and"))<=len(entry.__dict__[attr].split("and")))
+                            &(len(merged) < len(entry.__dict__[attr]))):
+                        merged = entry.__dict__[attr]
+                print("Merged authors: "+merged)
+                params[attr] = merged
+            #elif attr == 'journal':
+            #    merged = ''
+            #    for entry in entries:
+            #        print(entry.__dict__[attr])
+            #        if((len(merged) < len(entry.__dict__[attr]))):
+            #            merged = entry.__dict__[attr]
+            #    print("Merged journal: "+merged)
+            #    params[attr] = merged'
             else:
                 params[attr] = entries[0].__dict__[attr]
 
