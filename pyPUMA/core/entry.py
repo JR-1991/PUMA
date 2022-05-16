@@ -238,7 +238,6 @@ class PUMAEntry(BaseModel):
                     if((len(merged.split("and"))<=len(entry.__dict__[attr].split("and")))
                             &(len(merged) < len(entry.__dict__[attr]))):
                         merged = entry.__dict__[attr]
-                print("Merged authors: "+merged)
                 params[attr] = merged
             #elif attr == 'journal':
             #    merged = ''
