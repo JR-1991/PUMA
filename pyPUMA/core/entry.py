@@ -37,10 +37,10 @@ class PUMAEntry(BaseModel):
         description="Type of entry that is given in the PUMA entry"
     )
 
-    group: str = Field(
-        ...,
-        description="PUMA group association of the entry"
-    )
+    #group: str = Field(
+    #    ...,
+    #    description="PUMA group association of the entry"
+    #)
 
     tag: list = Field(
         default_factory=list,
@@ -234,7 +234,7 @@ class PUMAEntry(BaseModel):
             elif attr == 'author':
                 merged = ''
                 for entry in entries:
-                    print(entry.__dict__[attr].split("and"))
+                    #print(entry.__dict__[attr].split("and"))
                     if((len(merged.split("and"))<=len(entry.__dict__[attr].split("and")))
                             &(len(merged) < len(entry.__dict__[attr]))):
                         merged = entry.__dict__[attr]
@@ -247,6 +247,10 @@ class PUMAEntry(BaseModel):
             #            merged = entry.__dict__[attr]
             #    print("Merged journal: "+merged)
             #    params[attr] = merged'
+            elif attr in ['issn','isbn','journal','misc']:
+                for entry in entries:
+                    if entry.__dict__[attr] is not None:
+                        params[attr]= entry.__dict__[attr]
             else:
                 params[attr] = entries[0].__dict__[attr]
 
