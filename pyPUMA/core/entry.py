@@ -108,10 +108,7 @@ class PUMAEntry(BaseModel):
             return None
 
         if "doi = " in misc:
-            # Use regular expression to fetch the DOI
-            doi = cls._fetch_from_misc(misc.lower(), "doi")
-
-            if doi:
+            if doi := cls._fetch_from_misc(misc.lower(), "doi"):
                 doi = doi[doi.find("10.")::]
 
                 if doi.startswith("10."):
@@ -175,9 +172,7 @@ class PUMAEntry(BaseModel):
         """Initializes objects coming from an API fetch"""
 
         # Rearrange data for eeasy initialization
-        api_record = {**api_record, **api_record["bibtex"]}
-        api_record["group"] = group
-
+        api_record = {**api_record, **api_record["bibtex"], "group": group}
         # Create class
         cls = cls(**api_record)
         cls._raw_data = api_record

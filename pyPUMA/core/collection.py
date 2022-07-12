@@ -85,11 +85,12 @@ class PUMACollection(BaseModel):
         """
 
         # Get criteria from all entries
-        criteria_values = set([
+        criteria_values = {
             entry.__dict__.get(criteria)
             for entry in self.records
             if entry.__dict__.get(criteria)
-        ])
+        }
+
 
         # Initialize data strcuture with all duplicates
         duplicates = {}
